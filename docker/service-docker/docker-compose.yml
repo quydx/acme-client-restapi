@@ -1,0 +1,21 @@
+version '3'
+services:
+    web:
+        image: apiserver:latest
+        volumes:
+            - "/usr/keyssl:/usr/keyssl"
+        ports:
+            - "8000:80"
+        restart: always
+        depends_on:
+            - db
+
+    db:
+    image: mariadb
+        expose:
+        - "3306"
+        environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_ROOT_PASSWORD=root
+        volumes:
+            - ./db/webservice.sql:/docker-entrypoint-initdb.d/webservice.sql
